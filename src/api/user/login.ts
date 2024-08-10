@@ -7,8 +7,8 @@ import apiClient from '..';
  * @param {string} password 사용자 비밀번호
  */
 interface LoginRequest {
-  email: string;
-  password: string;
+  nickname: string;
+  pregnancyWeeks: number;
 }
 
 /**
@@ -29,12 +29,16 @@ interface LoginResponse {
 const login = async (
   requestParameters: LoginRequest
 ): Promise<LoginResponse> => {
-  const response = await apiClient.post<LoginResponse>(
-    '/api/v1/auth/login',
-    requestParameters
-  );
-
-  return response.data;
+  try {
+    const response = await apiClient.post<LoginResponse>(
+      '/api/v1/auth/signupAndLogin',
+      requestParameters
+    );
+    return Promise.resolve(response.data);
+  } catch (error) {
+    console.error('회원가입 실패', error);
+    return Promise.reject(error);
+  }
 };
 
 export default login;

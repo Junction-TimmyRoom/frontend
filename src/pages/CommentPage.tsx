@@ -1,81 +1,75 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 import Comment from '@/components/common/Comment';
 
 import { IconWhiteBack } from '@/assets/icons';
 import { IconSubmit } from '@/assets/icons';
 
+import { PostReview, GetReview } from '@/api/user/review';
+
+interface Review {
+  id: number;
+  content: string;
+  createdAt: string;
+  user: {
+    nickname: string;
+    pregnancyWeeks: number;
+  };
+}
+
 const CommentPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  if (id === undefined) {
+    console.error('ID가 정의되지 않았습니다.');
+    return <div>잘못된 경로입니다.</div>;
+  }
 
-  const comments = [
-    {
-      id: 1,
-      content: '이 글 정말 유익하네요!',
-      nickname: '유저1',
-      createdAt: '08.01',
-    },
-    {
-      id: 2,
-      content: '좋은 정보 감사합니다.',
-      nickname: '유저2',
-      createdAt: '08.02',
-    },
-    {
-      id: 3,
-      content: '저도 같은 생각입니다.',
-      nickname: '유저3',
-      createdAt: '08.03',
-    },
-    {
-      id: 4,
-      content: '잘 읽었습니다.',
-      nickname: '유저4',
-      createdAt: '08.04',
-    },
-    {
-      id: 5,
-      content: '더 많은 글 기대할게요.',
-      nickname: '유저5',
-      createdAt: '08.05',
-    },
-    {
-      id: 6,
-      content: '유익한 정보 감사합니다.',
-      nickname: '유저6',
-      createdAt: '08.06',
-    },
-    {
-      id: 7,
-      content: '좋은 글 감사합니다.',
-      nickname: '유저7',
-      createdAt: '08.07',
-    },
-    {
-      id: 8,
-      content: '정말 도움이 많이 되었습니다.',
-      nickname: '유저8',
-      createdAt: '08.08',
-    },
-    {
-      id: 9,
-      content: '정말 도움이 많이 되었습니다.',
-      nickname: '유저8',
-      createdAt: '08.08',
-    },
-    {
-      id: 10,
-      content: '정말 도움이 많이 되었습니다.',
-      nickname: '유저8',
-      createdAt: '08.08',
-    },
-    {
-      id: 11,
-      content: '정말 도움이 많이 되었습니다.',
-      nickname: '유저8',
-      createdAt: '08.08',
-    },
-  ];
+  const menuId = parseInt(id, 10);
+
+  if (isNaN(menuId)) {
+    console.error('ID가 유효한 숫자가 아닙니다.');
+    return <div>잘못된 ID입니다.</div>;
+  }
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState<Review[]>([]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
+  };
+
+  const handleComment = async (menuId: number) => {
+    const response = await GetReview(menuId);
+    setComments(response.reviews);
+
+    console.log(response.reviews, menuId);
+  };
+
+  useEffect(() => {
+    handleComment(menuId);
+  }, []);
+
+  const handleSubmit = async () => {
+    if (comment.trim()) {
+      if (isNaN(menuId)) {
+        console.error('Invalid menu ID');
+        return;
+      }
+
+      const response = await PostReview({
+        content: comment,
+        menuId: menuId,
+      });
+      setComment('');
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
 
   return (
     <>
@@ -86,7 +80,7 @@ const CommentPage = () => {
       >
         <IconWhiteBack onClick={() => navigate(-1)} />
         <p className="absolute left-1/2 transform -translate-x-1/2">
-          <p className="text-16pxr text-white text-ellipsis">
+          <p className="text-16pxr text-white whitespace-nowrap text-ellipsis">
             Tips for Vegetable Kimbab
           </p>
         </p>
@@ -96,7 +90,7 @@ const CommentPage = () => {
           <div key={comment.id}>
             <Comment
               content={comment.content}
-              nickname={comment.nickname}
+              user={comment.user}
               createdAt={comment.createdAt}
             />
             {index < comments.length - 1 && <hr className="my-20pxr" />}
@@ -107,8 +101,11 @@ const CommentPage = () => {
         <input
           placeholder="Write Comments..."
           className="w-full bg-navy7 rounded-31pxr p-22pxr outline-none"
+          value={comment}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
-        <IconSubmit className="absolute right-30pxr" />
+        <IconSubmit className="absolute right-30pxr" onClick={handleSubmit} />
       </div>
     </>
   );
