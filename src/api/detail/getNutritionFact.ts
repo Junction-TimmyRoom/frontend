@@ -15,7 +15,7 @@ interface GetNutritionFactResponse {
   menu: {
     id: number;
     name: string;
-    contenet: string; // 여기에 오타가 있는 것 같습니다. 실제로는 `content`일 수 있습니다.
+    content: string;
     recommendedServingSize: number;
     caloriesPer100gServing: number;
   };

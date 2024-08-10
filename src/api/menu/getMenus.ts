@@ -9,9 +9,10 @@ interface GetMenusRequest {
 interface MenuInfo {
   id: number;
   name: string;
-  contenet: string; // 오타 수정: 실제로는 "content"일 가능성이 높습니다.
+  content: string; // 오타 수정: 실제로는 "content"일 가능성이 높습니다.
   recommendedServingSize: number;
   caloriesPer100gServing: number;
+  imgUrl: string;
 }
 
 // 응답 타입 정의

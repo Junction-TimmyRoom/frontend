@@ -50,7 +50,7 @@ interface RecommendedNutritionData {
 interface Menu {
   id: number;
   name: string;
-  contenet: string;
+  content: string;
   recommendedServingSize: number;
   caloriesPer100gServing: number;
 }
@@ -197,9 +197,7 @@ const DetailPage: React.FC = () => {
           </div>
         </div>
         <div className="px-16pxr">
-          <div className="mt-34pxr leading-[19.6px]">
-            {state.menu?.contenet}
-          </div>
+          <div className="mt-34pxr leading-[19.6px]">{state.menu?.content}</div>
           {nutritionData && recommendedNutritionData && (
             <NutritionFacts
               nutritionData={nutritionData}

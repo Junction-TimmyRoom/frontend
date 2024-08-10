@@ -10,6 +10,7 @@ interface MenuItem {
     content: string;
     recommendedServingSize: number;
     caloriesPer100gServing: number;
+    imgUrl: string;
   };
   countOfGood: number;
   countOfCareful: number;
@@ -53,7 +54,14 @@ const MenuPage = () => {
           {menuList.map((item: MenuItem, index: number) => (
             <MenuBox
               key={index}
-              item={{ id: item.menu.id, name: item.menu.name }}
+              item={{
+                id: item.menu.id,
+                imageUrl: item.menu.imgUrl,
+                name: item.menu.name,
+                countOfGood: item.countOfGood,
+                countOfCareful: item.countOfCareful,
+                countOfEtc: item.countOfEtc,
+              }}
             />
           ))}
         </div>

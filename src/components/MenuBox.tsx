@@ -6,6 +6,10 @@ interface MenuItemProps {
   item: {
     id: number;
     name: string;
+    imageUrl: string;
+    countOfGood: number;
+    countOfCareful: number;
+    countOfEtc: number;
   };
 }
 
@@ -35,7 +39,7 @@ const MenuBox = ({ item }: MenuItemProps) => {
             Good
           </Text>{' '}
           <Text fontSize={12} color="default" fontWeight={700}>
-            {'1'}
+            {item.countOfGood}
           </Text>
         </div>
         <div className="flex rounded-30pxr px-10pxr py-4pxr bg-orange">
@@ -43,7 +47,7 @@ const MenuBox = ({ item }: MenuItemProps) => {
             Careful
           </Text>{' '}
           <Text fontSize={12} color="default" fontWeight={700}>
-            {'1'}
+            {item.countOfCareful}
           </Text>
         </div>
         <div className="ml-8pxr">
