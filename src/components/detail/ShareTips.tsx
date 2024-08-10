@@ -1,7 +1,29 @@
-import { IconFire } from '@/assets/icons';
+import { IconFire, IconSubmit } from '@/assets/icons';
 import { Text } from '../common/Text';
+import Comment from '../common/Comment';
+import { useNavigate } from 'react-router-dom';
 
-export default function ShareTips() {
+interface Review {
+  id: number;
+  content: string;
+  createdAt: string;
+  user: {
+    nickname: string;
+    pregnancyWeeks: number;
+  };
+}
+interface commentProps {
+  comments: Review[];
+  menuId: number;
+  recommendComment: string[];
+}
+export default function ShareTips({
+  comments,
+  menuId,
+  recommendComment,
+}: commentProps) {
+  console.log(recommendComment);
+  const navigate = useNavigate();
   return (
     <div>
       <Text fontSize={18} fontWeight={700}>
@@ -36,6 +58,30 @@ export default function ShareTips() {
         </div>
       </div>
       <div className="h-25pxr" />
+      <div className="px-16pxr bg-default border py-25pxr rounded-t-30pxr">
+        {comments.map((comment, index) => (
+          <div key={comment.id}>
+            <Comment
+              content={comment.content}
+              user={comment.user}
+              createdAt={comment.createdAt}
+            />
+            {index < comments.length - 1 && <hr className="my-20pxr" />}
+          </div>
+        ))}
+      </div>
+      <div
+        onClick={() => {
+          navigate(`/comment/${menuId}`);
+        }}
+      >
+        <div className="flex justify-center items-center bg-white h-97pxr w-full px-16pxr">
+          <div className="w-full bg-navy7 rounded-31pxr p-22pxr outline-none">
+            Write Comments...
+          </div>
+          <IconSubmit className="absolute right-30pxr" />
+        </div>
+      </div>
     </div>
   );
 }

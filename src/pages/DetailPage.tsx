@@ -92,8 +92,8 @@ const DetailPage: React.FC = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [comments, setComments] = useState<Review[]>([]);
+  const [recommendComments, setRecommendCommnets] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<MenuDetail[]>([]);
-  const navigate = useNavigate();
   useEffect(() => {
     const path = window.location.pathname;
     const segments = path.split('/');
@@ -115,7 +115,7 @@ const DetailPage: React.FC = () => {
        */
       const commentResponse = await GetReview(state.itemId);
       setComments(commentResponse.reviews);
-
+      setRecommendCommnets(commentResponse.reviewSummaries);
       /**
        * 성분 가져오기
        */
@@ -217,33 +217,11 @@ const DetailPage: React.FC = () => {
             <Ingredients ingredients={ingredients} />
           </div>
           <div className="mt-75pxr">
-            <ShareTips />
-          </div>
-        </div>
-        <div className="px-16pxr">
-          <div className="px-16pxr bg-default border py-25pxr rounded-t-30pxr">
-            {comments.map((comment, index) => (
-              <div key={comment.id}>
-                <Comment
-                  content={comment.content}
-                  user={comment.user}
-                  createdAt={comment.createdAt}
-                />
-                {index < comments.length - 1 && <hr className="my-20pxr" />}
-              </div>
-            ))}
-          </div>
-          <div
-            onClick={() => {
-              navigate(`/comment/${state.menu?.id}`);
-            }}
-          >
-            <div className="flex justify-center items-center bg-white h-97pxr w-full px-16pxr">
-              <div className="w-full bg-navy7 rounded-31pxr p-22pxr outline-none">
-                Write Comments...
-              </div>
-              <IconSubmit className="absolute right-30pxr" />
-            </div>
+            <ShareTips
+              comments={comments}
+              menuId={state.itemId!}
+              recommendComment={recommendComments}
+            />
           </div>
         </div>
         {!isLoading && (
