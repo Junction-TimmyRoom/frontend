@@ -82,7 +82,7 @@ const CommentPage = () => {
         <IconWhiteBack onClick={() => navigate(-1)} />
         <p className="absolute left-1/2 transform -translate-x-1/2">
           <p className="text-16pxr text-white whitespace-nowrap text-ellipsis">
-            Tips for Vegetable Kimbab
+            Tips
           </p>
         </p>
       </div>
