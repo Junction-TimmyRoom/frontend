@@ -16,11 +16,19 @@ export default function ShowIngredient({ ingredients }: ShowIngredientProps) {
   };
 
   // 필터링된 식자재를 선택된 메뉴에 따라 표시
-  const filteredIngredients = ingredients.flatMap(
-    (detail) =>
-      detail.ingredientCharacteristics
-        .filter((char) => char.type === selectedMenu.toUpperCase())
-        .map(() => detail.menu.imgUrl) // 각 식자재의 메뉴에서 imgUrl을 가져옴
+  const filteredIngredients = ingredients.flatMap((detail) =>
+    detail.ingredientCharacteristics
+      .filter((char) => char.type === selectedMenu.toUpperCase())
+      .map(() => ({
+        imgUrl: detail.menu.imgUrl,
+        menuName: detail.menu.name,
+        name: detail.name,
+        content:
+          detail.ingredientCharacteristics.find(
+            (char) => char.type === selectedMenu.toUpperCase()
+          )?.content || '',
+        type: selectedMenu.toUpperCase(), // 선택된 메뉴의 타입
+      }))
   );
 
   // 각 메뉴 버튼 옆에 표시할 개수 계산
@@ -74,18 +82,35 @@ export default function ShowIngredient({ ingredients }: ShowIngredientProps) {
           Etc ({etcCount})
         </button>
       </div>
-      <div className="mt-20pxr overflow-x-scroll flex gap-12pxr">
+      <div className="mt-20pxr flex flex-wrap gap-12pxr">
         {filteredIngredients.length > 0 ? (
-          filteredIngredients.map((imgUrl, index) => (
-            <img
+          filteredIngredients.map((ingredient, index) => (
+            <div
               key={index}
-              src={imgUrl}
-              alt={`Ingredient ${index}`}
-              className="w-24 h-24 object-cover rounded"
-            />
+              className="flex flex-col justify-between items-center rounded-20pxr px-14pxr py-18pxr w-150pxr h-192pxr bg-white shadow-md"
+            >
+              <div>
+                <div className="flex justify-between">
+                  <Text fontSize={16} fontWeight={600}>
+                    {ingredient.name}
+                  </Text>
+                  <Text fontSize={14} color="black">
+                    {ingredient.type}
+                  </Text>
+                </div>
+                <p className="text-sm text-gray-500">{ingredient.content}</p>
+              </div>
+              <img
+                src={ingredient.imgUrl}
+                alt={ingredient.menuName}
+                className="w-92pxr h-92pxr object-cover"
+              />
+            </div>
           ))
         ) : (
-          <p>해당하는 식자재가 없습니다</p>
+          <div className="w-full h-192pxr flex items-center justify-center">
+            <p>해당하는 식자재가 없습니다</p>
+          </div>
         )}
       </div>
     </div>
