@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Text } from '@/components/common/Text';
@@ -33,7 +33,10 @@ const Phase2 = () => {
       </section>
       <button
         className="fixed left-1/2 bottom-31pxr transform -translate-x-1/2 w-[calc(100%-32px)] h-79pxr bg-navy rounded-50pxr text-white"
-        onClick={() => navigate('/')}
+        onClick={() => {
+          navigate('/');
+          localStorage.setItem('accessToken', 'test');
+        }}
       >
         끝내기
       </button>
