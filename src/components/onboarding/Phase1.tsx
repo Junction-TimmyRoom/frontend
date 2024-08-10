@@ -25,13 +25,13 @@ const Phase1 = ({ setPhase }: BarProps) => {
     <>
       <section className="h-2/3 content-input flex flex-col items-center justify-center ">
         <Text fontSize={24} fontWeight={600} className="text-center">
-          반가워요!
+          Hello!
           <br />
-          닉네임을 입력하세요
+          Please enter your nickname
         </Text>
         <input
           className="w-full h-71pxr bg-navy5 rounded-14pxr text-center outline-none mt-45pxr mb-6pxr .placeholder-gray-500::placeholder text-black text-18px font-bold"
-          placeholder="10자 이내로 입력하세요"
+          placeholder="Please enter within 10 characters"
           value={inputValue}
           onChange={handleChange}
         />
@@ -44,7 +44,7 @@ const Phase1 = ({ setPhase }: BarProps) => {
         onClick={handleNextClick}
         disabled={inputValue === ''}
       >
-        다음으로
+        next
       </button>
     </>
   );

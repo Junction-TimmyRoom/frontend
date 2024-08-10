@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import Comment from '@/components/common/Comment';
 
@@ -7,7 +7,7 @@ import { IconWhiteBack } from '@/assets/icons';
 import profile from '@/assets/icons/image_dummy-profile.png';
 
 import { GetUserReview } from '@/api/user/review';
-import { GetUserInfo } from '@/api/user/login';
+import { GetUserInfo } from '@/api/user/user';
 
 interface Review {
   id: number;
