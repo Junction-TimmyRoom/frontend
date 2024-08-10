@@ -147,7 +147,7 @@ export default function Home() {
         {/**
          * 검색 영역
          */}
-        <div className="w-full flex gap-10pxr items-center">
+        <div className="w-full px-16pxr flex gap-10pxr items-center">
           <SearchInput />
           <div className="min-w-50pxr min-h-50pxr bg-black rounded-full"></div>
         </div>
@@ -161,8 +161,8 @@ export default function Home() {
           </Text>
         </div>
       </div>
-      <div className="relative mb-100pxr">
-        <img src={ImageMain} className="w-344pxr h-304pxr" alt="Main" />
+      <div className="relative mb-85pxr">
+        <img src={ImageMain} className="w-full h-456pxr" alt="Main" />
         <input
           type="file"
           accept="image/*"
@@ -178,7 +178,7 @@ export default function Home() {
           <IconCamera />
         </label>
         <div
-          className="absolute -bottom-50pxr left-1/2"
+          className="absolute -bottom-15pxr left-1/2"
           style={{ transform: 'translateX(-50%)' }}
         >
           <div className="flex items-center justify-center px-10pxr py-6pxr rounded-30pxr bg-[#FB543C] text-white animate-floating">

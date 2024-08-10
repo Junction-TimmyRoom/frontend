@@ -7,7 +7,7 @@ const MenuPage = () => {
   const { photoData, menuList } = location.state || {};
 
   return (
-    <div>
+    <div className="px-16pxr">
       <Topbar title={'메뉴 인식 결과'} />
       <div className="img-container pt-80pxr pb-44pxr flex items-center justify-center">
         {photoData ? (
@@ -21,7 +21,7 @@ const MenuPage = () => {
         )}
       </div>
       <div className="menu-container">
-        <p className="text-18pxr mb-20pxr font-normal font-semibold leading-16pxr">
+        <p className="text-18pxr mb-20pxr leading-16pxr">
           {menuList?.length || 0}개의 메뉴가 있네요
         </p>
         <div className="menu-container flex flex-col gap-8pxr">
