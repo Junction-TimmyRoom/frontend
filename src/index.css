@@ -25,6 +25,12 @@
       'Segoe UI Symbol',
       'Noto Color Emoji';
   }
+  @media (min-width: 430px) {
+    body {
+      width: 430px;
+      margin: 0 auto;
+    }
+  }
 }
 @tailwind components;
 @tailwind utilities;
