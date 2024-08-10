@@ -17,7 +17,7 @@ export default function SearchInput() {
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="키워드로도 검색해봐요"
+        placeholder="Search with keywords"
         className="w-full outline-none placeholder:text-[rgba(0,0,0,0.50)] placeholder:text-sm placeholder:font-normal placeholder:leading-normal"
       />
       <div className="absolute top-1/2 transform -translate-y-1/2 right-20pxr">

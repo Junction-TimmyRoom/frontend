@@ -155,9 +155,9 @@ export default function Home() {
          * 텍스트 영역
          */}
         <div className="flex flex-col items-center mt-60pxr">
-          <Text fontSize={21}>김정션님,</Text>
+          <Text fontSize={21}>Hello, Junction!</Text>
           <Text fontSize={21} fontWeight={600}>
-            어디서든 걱정없이 먹어요!
+            Eat anything, at anywhere
           </Text>
         </div>
       </div>
@@ -173,17 +173,17 @@ export default function Home() {
         />
         <label
           htmlFor="cameraInput"
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 hover:brightness-75 cursor-pointer"
+          className="absolute bottom-13pxr left-1/2 transform -translate-x-1/2 hover:brightness-75 cursor-pointer"
         >
           <IconCamera />
         </label>
         <div
-          className="absolute -bottom-15pxr left-1/2"
+          className="absolute -bottom-35pxr left-1/2"
           style={{ transform: 'translateX(-50%)' }}
         >
-          <div className="flex items-center justify-center px-10pxr py-6pxr rounded-30pxr bg-[#FB543C] text-white animate-floating">
+          <div className="flex whitespace-nowrap items-center justify-center px-10pxr py-6pxr rounded-30pxr bg-[#FB543C] text-white animate-floating">
             <Text fontSize={12} fontWeight={500} color="default">
-              터치하면 촬영시작!
+              If you touch it, the shoot starts!
             </Text>
             <div
               className="absolute -top-6pxr left-1/2 transform -translate-x-1/2"
