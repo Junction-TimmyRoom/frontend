@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const DetailPage = () => {
-  return <>상세 페이지입니다.</>;
+  return <></>;
 };
 
 export default DetailPage;

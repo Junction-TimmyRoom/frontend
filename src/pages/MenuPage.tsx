@@ -11,7 +11,6 @@ interface MenuItem {
 
 const MenuPage = () => {
   const location = useLocation();
-
   const photoData = location.state || {};
 
   //mock data
