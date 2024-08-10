@@ -3,9 +3,25 @@ import Topbar from '@/components/common/Topbar';
 import MenuBox from '@/components/MenuBox';
 import { Text } from '@/components/common/Text';
 
+interface MenuItem {
+  menu: {
+    id: number;
+    name: string;
+    content: string;
+    recommendedServingSize: number;
+    caloriesPer100gServing: number;
+  };
+  countOfGood: number;
+  countOfCareful: number;
+  countOfEtc: number;
+}
+
 const MenuPage = () => {
   const location = useLocation();
-  const { photoData, menuList } = location.state || {};
+  const { photoData, menuList } = location.state || {
+    photoData: null,
+    menuList: [],
+  };
 
   return (
     <div className="px-16pxr">
@@ -29,13 +45,16 @@ const MenuPage = () => {
 
           <div className="flex items-center w-45pxr h-45pxr justify-center p-10pxr bg-gray10 rounded-full">
             <Text fontSize={21} fontWeight={700} className="leading-16pxr">
-              {menuList?.length}
+              {menuList.length}
             </Text>
           </div>
         </div>
         <div className="menu-container flex flex-col gap-8pxr mt-21pxr">
-          {menuList?.map((item: string, index: number) => (
-            <MenuBox key={index} item={{ id: index, name: item }} />
+          {menuList.map((item: MenuItem, index: number) => (
+            <MenuBox
+              key={index}
+              item={{ id: item.menu.id, name: item.menu.name }}
+            />
           ))}
         </div>
       </div>
