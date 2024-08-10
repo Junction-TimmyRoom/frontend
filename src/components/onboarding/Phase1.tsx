@@ -14,6 +14,13 @@ const Phase1 = ({ setPhase }: BarProps) => {
       setInputValue(e.target.value);
     }
   };
+
+  const handleNextClick = () => {
+    if (inputValue !== '') {
+      localStorage.setItem('nickname', inputValue);
+      setPhase(2);
+    }
+  };
   return (
     <>
       <section className="h-2/3 content-input flex flex-col items-center justify-center ">
@@ -31,8 +38,11 @@ const Phase1 = ({ setPhase }: BarProps) => {
         <p className="text-gray02 text-12pxr">{inputValue.length}/10</p>
       </section>
       <button
-        className="fixed left-1/2 bottom-31pxr transform -translate-x-1/2 w-[calc(100%-32px)] h-79pxr bg-navy rounded-50pxr text-white"
-        onClick={() => setPhase(2)}
+        className={`fixed left-1/2 bottom-31pxr transform -translate-x-1/2 w-[calc(100%-32px)] h-79pxr bg-navy rounded-50pxr text-white ${
+          inputValue === '' ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+        onClick={handleNextClick}
+        disabled={inputValue === ''}
       >
         다음으로
       </button>

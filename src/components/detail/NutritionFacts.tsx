@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Text } from '@/components/common/Text';
 import { IconWarn, IconArrowBottom, IconArrowTop } from '@/assets/icons';
-import { getData } from '@/util/apiTest';
 
 // Nutrition Data 타입 정의
 interface NutritionData {
@@ -39,101 +38,23 @@ interface RecommendedNutritionData {
   magnesium: number;
 }
 
-// Nutrition Facts 컴포넌트
-const NutritionFacts: React.FC = () => {
-  const initialNutritionData: NutritionData = {
-    carbohydrates: {
-      value: 0,
-      sugars: 0,
-    },
-    protein: 0,
-    fat: {
-      value: 0,
-      saturatedFat: 0,
-      transFat: 0,
-    },
-    cholesterol: 0,
-  };
-
-  const initialRecommendedNutritionData: RecommendedNutritionData = {
-    carbohydrates: 0,
-    sugars: 0,
-    protein: 0,
-    fat: 0,
-    saturatedFat: 0,
-    transFat: 0,
-    cholesterol: 0,
-    fiber: 0,
-    folicAcid: 0,
-    iron: 0,
-    calcium: 0,
-    omega3FattyAcid: 0,
-    vitaminB6: 0,
-    vitaminB12: 0,
-    vitaminC: 0,
-    vitaminD: 0,
-    magnesium: 0,
-  };
-
-  const [nutritionData, setNutritionData] =
-    useState<NutritionData>(initialNutritionData);
-  const [recommendedNutritionData, setRecommendedNutritionData] =
-    useState<RecommendedNutritionData>(initialRecommendedNutritionData);
+// NutritionFacts 컴포넌트
+const NutritionFacts: React.FC<{
+  nutritionData: NutritionData;
+  recommendedNutritionData: RecommendedNutritionData;
+  perKcal: number;
+  perRecKcal: number;
+  warnings: string[];
+  nutrientText: string[];
+}> = ({
+  nutritionData,
+  recommendedNutritionData,
+  perKcal,
+  perRecKcal,
+  warnings,
+  nutrientText,
+}) => {
   const [isMoreView, setIsMoreView] = useState(false);
-  const [perKcal, setPerKcal] = useState(0);
-  const [perRecKcal, setPerRecKcal] = useState(0);
-  const [warnings, setWarnings] = useState<string[]>([]);
-  const [nutrientText, setNutrientText] = useState<string>('');
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getData();
-      setPerKcal(data.menu.caloriesPer100gServing);
-      setPerRecKcal(data.menu.recommendedServingSize);
-      setNutritionData({
-        carbohydrates: {
-          value: data.nutritionalFact.carbohydrates,
-          sugars: data.nutritionalFact.sugars,
-        },
-        protein: data.nutritionalFact.protein,
-        fat: {
-          value: data.nutritionalFact.fat,
-          saturatedFat: data.nutritionalFact.saturatedFat,
-          transFat: data.nutritionalFact.transFat,
-        },
-        cholesterol: data.nutritionalFact.cholesterol,
-      });
-
-      const updatedWarnings: string[] = [];
-      for (const [key, value] of Object.entries(data.nutritionalFact)) {
-        if (key === 'fiber') break;
-        const recommendedValue =
-          data.recommendedNutritionFact[key as keyof RecommendedNutritionData];
-
-        if (value > recommendedValue) {
-          updatedWarnings.push(key.charAt(0).toUpperCase() + key.slice(1));
-        }
-      }
-      const concatenatedString: string[] = [];
-      let startCollecting = false;
-
-      for (const [key, value] of Object.entries(data.nutritionalFact)) {
-        if (key === 'fiber') {
-          startCollecting = true;
-        }
-
-        if (startCollecting) {
-          concatenatedString.push(`${key} ${value}mg`);
-        }
-      }
-
-      const resultString = concatenatedString.join(', ');
-      setNutrientText(resultString);
-      setRecommendedNutritionData(data.recommendedNutritionFact);
-      setWarnings(updatedWarnings);
-    };
-
-    fetchData();
-  }, []);
 
   const handleMoreNutrition = () => {
     setIsMoreView((prev) => !prev);
@@ -187,6 +108,7 @@ const NutritionFacts: React.FC = () => {
             </>
           );
         }
+
         for (const [subKey, subValue] of Object.entries(value)) {
           let subKeyShowWarning = false;
           if (subKey !== 'value') {
@@ -269,24 +191,45 @@ const NutritionFacts: React.FC = () => {
         </Text>
       </div>
       <div className="mt-24pxr">
-        <div className="bg-yellow flex flex-col h-97pxr w-full gap-4pxr rounded-30pxr items-center justify-center">
-          <div className="flex w-full gap-6pxr items-center justify-center">
-            <IconWarn width={18} height={18} />
+        {warnings.length > 0 ? (
+          <div className="bg-yellow flex flex-col h-97pxr w-full gap-4pxr rounded-30pxr items-center justify-center">
+            <div className="flex w-full gap-6pxr items-center justify-center">
+              <IconWarn width={18} height={18} />
+              <Text
+                fontWeight={600}
+                className="leading-[16px] text-ellipsis line-clamp-2 w-229pxr"
+              >
+                Be careful of {warnings.join(', ')}
+              </Text>
+            </div>
             <Text
-              fontWeight={600}
-              className="leading-[16px] text-ellipsis line-clamp-2 w-229pxr"
+              fontSize={12}
+              color="gray50"
+              className="text-center leading-[16px]"
             >
-              Be careful of {warnings.length > 0 ? warnings.join(', ') : 'none'}
+              {perKcal}kcal per | {perRecKcal}g recommended intake per 100g
             </Text>
           </div>
-          <Text
-            fontSize={12}
-            color="gray50"
-            className="text-center leading-[16px]"
-          >
-            {perKcal}kcal per | {perRecKcal}g recommended intake per 100g
-          </Text>
-        </div>
+        ) : (
+          <div className="bg-blue flex flex-col h-97pxr w-full gap-4pxr rounded-30pxr items-center justify-center">
+            <div className="flex w-full gap-6pxr items-center justify-center">
+              <IconWarn width={18} height={18} />
+              <Text
+                fontWeight={600}
+                className="leading-[16px] text-ellipsis line-clamp-2"
+              >
+                This food has good nutritional balance.
+              </Text>
+            </div>
+            <Text
+              fontSize={12}
+              color="gray50"
+              className="text-center leading-[16px]"
+            >
+              {perKcal}kcal per | {perRecKcal}g recommended intake per 100g
+            </Text>
+          </div>
+        )}
       </div>
       <div>
         <div
@@ -296,12 +239,12 @@ const NutritionFacts: React.FC = () => {
             <div className="w-full flex justify-between">
               <Text className="leading-[16px]">Nutrients for pregnants</Text>
               <Text fontSize={18} fontWeight={600} className="leading-[16px]">
-                3 Contained
+                {nutrientText.length} Contained
               </Text>
             </div>
             <div className="h-10pxr" />
             <Text fontSize={12} color="gray50" className="leading-[16px]">
-              {nutrientText}
+              {nutrientText.join(', ')}
             </Text>
             <div className="mb-20pxr" />
             <div>{renderNutritionFacts(nutritionData)}</div>

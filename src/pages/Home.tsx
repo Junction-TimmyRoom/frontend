@@ -9,6 +9,8 @@ import '@/styles/styles.css';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { Slide, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import getMenus from '@/api/menu/getMenus';
+import ImageUserLogo from '@/assets/images/image_userLogo.png';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -88,7 +90,7 @@ export default function Home() {
           messages: [
             {
               role: 'user',
-              content: `여기서 한글 메뉴를 모두 가져와서 정확히 다음 형식으로 리스트를 반환해줘: ["메뉴1", "메뉴2", "메뉴3", ...]\n\n텍스트:\n${text}`,
+              content: `여기서 영어 메뉴를 모두 가져와서 정확히 다음 형식으로 리스트를 반환해줘: ["메뉴1", "메뉴2", "메뉴3", ...]\n\n텍스트:\n${text}`,
             },
           ],
           max_tokens: 1000,
@@ -107,10 +109,24 @@ export default function Home() {
       const menuList = parseMenuList(gptResponse);
       console.log('Parsed Menu List:', menuList);
 
-      // GPT 결과와 이미지를 state로 넘겨서 페이지 이동
-      navigate('/menu', { state: { photoData: image, menuList } });
+      // getMenus 호출하여 응답을 받아서 navigate 시 상태로 전달
+      await getMenusResponse(menuList, image);
     } catch (error) {
       console.error('Error getting GPT response:', error);
+      setIsLoading(false); // 오류 발생 시 로딩 종료
+      notify(); // 오류 발생 시 알림 표시
+    }
+  };
+
+  const getMenusResponse = async (menuList: string[], image: string) => {
+    try {
+      const response = await getMenus({ menus: menuList });
+      console.log('Get Menus Response:', response);
+
+      // 메뉴 정보와 함께 페이지 이동
+      navigate('/menu', { state: { photoData: image, menuList: response } });
+    } catch (error) {
+      console.error('Error getting menus:', error);
       setIsLoading(false); // 오류 발생 시 로딩 종료
       notify(); // 오류 발생 시 알림 표시
     }
@@ -149,7 +165,7 @@ export default function Home() {
          */}
         <div className="w-full px-16pxr flex gap-10pxr items-center">
           <SearchInput />
-          <div className="min-w-50pxr min-h-50pxr bg-black rounded-full"></div>
+          <img src={ImageUserLogo} width={50} height={50} alt="" />
         </div>
         {/**
          * 텍스트 영역
