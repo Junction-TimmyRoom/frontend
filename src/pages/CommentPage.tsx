@@ -62,6 +62,7 @@ const CommentPage = () => {
         content: comment,
         menuId: menuId,
       });
+      console.log(response);
       setComment('');
       setRender(render + 1);
     }

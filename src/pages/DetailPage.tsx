@@ -77,12 +77,6 @@ interface Review {
   };
 }
 
-interface IngredientCharacteristic {
-  id: number;
-  type: string; // 예: "ETC"
-  content: string;
-}
-
 // DetailPage 컴포넌트
 const DetailPage: React.FC = () => {
   const [state, setState] = useState<NutritionPageState>({
