@@ -16,12 +16,14 @@ const NutritionFacts = () => {
         </Text>
       </div>
       <div className="mt-24pxr">
-        <div className="bg-yellow flex flex-col h-97pxr w-full rounded-30pxr items-center justify-center">
-          <div className="flex w-full items-center justify-center">
-            <IconWarn />
-            <Text fontWeight={600}>Be careful of sugars, cholesterol</Text>
+        <div className="bg-yellow flex flex-col h-97pxr w-full gap-4pxr rounded-30pxr items-center justify-center">
+          <div className="flex w-full gap-6pxr items-center justify-center">
+            <IconWarn width={18} height={18} />
+            <Text fontWeight={600} className="leading-[16px]">
+              Be careful of sugars, cholesterol
+            </Text>
           </div>
-          <Text fontSize={12} className="text-center">
+          <Text fontSize={12} className="text-center leadig-[16px]">
             167 kcal per | 210g recommended intake per 100g
           </Text>
         </div>
