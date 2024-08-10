@@ -1,12 +1,22 @@
-import { IconSearch } from '@/assets/icons';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+import { IconSearch } from '@/assets/icons';
+
+import { GetSearchMenu } from '@/api/menu/getSearchMenu';
+
 export default function SearchInput() {
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = async (menuName: string) => {
+    const response = await GetSearchMenu(menuName);
+    navigate(`/detail/${response.menuId}`);
+  };
 
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === 'Enter') {
-      console.log('검색');
+      handleSearch(searchValue);
     }
   };
 
@@ -21,7 +31,7 @@ export default function SearchInput() {
         className="w-full outline-none placeholder:text-[rgba(0,0,0,0.50)] placeholder:text-sm placeholder:font-normal placeholder:leading-normal"
       />
       <div className="absolute top-1/2 transform -translate-y-1/2 right-20pxr">
-        <IconSearch />
+        <IconSearch onClick={() => handleSearch(searchValue)} />
       </div>
     </div>
   );
