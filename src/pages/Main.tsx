@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Main() {
+  const navigate = useNavigate();
   const [photoData, setPhotoData] = useState<string | null>(null);
 
   const handleCapture = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -9,6 +11,7 @@ export default function Main() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoData(reader.result as string);
+        navigate('/menu', { state: reader.result });
       };
       reader.readAsDataURL(file);
     }
