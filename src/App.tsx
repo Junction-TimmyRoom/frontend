@@ -6,7 +6,6 @@ import MyPage from './pages/MyPage';
 import OnboardingPage from './pages/OnboardingPage';
 import Home from './pages/Home';
 
-
 function App() {
   return (
     <Router>
