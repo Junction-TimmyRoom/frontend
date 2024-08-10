@@ -3,7 +3,7 @@ export const getData = async () => {
     menu: {
       id: 1,
       name: '마라탕',
-      contenet: '메뉴입니다.',
+      content: '메뉴입니다.',
       recommendedServingSize: 200,
       caloriesPer100gServing: 100,
     },
