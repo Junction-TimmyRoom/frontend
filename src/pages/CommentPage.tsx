@@ -43,8 +43,6 @@ const CommentPage = () => {
   const handleComment = async (menuId: number) => {
     const response = await GetReview(menuId);
     setComments(response.reviews);
-
-    console.log(response.reviews, menuId);
   };
 
   useEffect(() => {
