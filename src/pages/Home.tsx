@@ -134,8 +134,17 @@ export default function Home() {
 
   const parseMenuList = (response: string) => {
     try {
-      // JSON.parse를 사용해 GPT의 응답을 배열로 변환
-      return JSON.parse(response);
+      // 텍스트에서 메뉴 리스트가 포함된 배열 부분 추출
+      const match = response.match(/\[(.*?)\]/);
+      if (!match || !match[0]) {
+        throw new Error('No menu list found in response.');
+      }
+
+      // 배열 문자열을 JSON 배열로 변환
+      const menuListString = match[0];
+      const menuList = JSON.parse(menuListString);
+
+      return menuList;
     } catch (error) {
       console.error('Error parsing GPT response:', error);
       notify(); // 파싱 오류 발생 시 알림 표시
