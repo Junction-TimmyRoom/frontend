@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import OnboardingPage from './OnboardingPage';
 
 export default function Main() {
   const navigate = useNavigate();
