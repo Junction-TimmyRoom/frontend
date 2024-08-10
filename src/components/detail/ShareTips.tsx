@@ -24,42 +24,33 @@ export default function ShareTips({
 }: commentProps) {
   console.log(recommendComment);
   const navigate = useNavigate();
+  const displayComments = comments.length >= 3 ? comments.slice(-3) : comments;
+
   return (
-    <div>
+    <div className="pb-45pxr">
       <Text fontSize={18} fontWeight={700}>
         Share Tips
       </Text>
-      <div className="h-24pxr" />
-      <div className="bg-navy flex h-60pxr w-full rounded-30pxr items-center px-16pxr">
-        <div className="flex w-full gap-6pxr items-center">
-          <IconFire width={24} height={24} />
-          <Text
-            fontSize={14}
-            fontWeight={600}
-            color="default"
-            className="leading-[16px]"
-          >
-            Easy to be rotten
-          </Text>
-        </div>
+      <div className="tipBox flex flex-col gap-10pxr my-24pxr">
+        {recommendComment.map((item) => (
+          <div className="bg-navy flex h-60pxr w-full rounded-30pxr items-center pl-16pxr pr-24pxr">
+            <div className="flex w-full gap-6pxr items-center">
+              <IconFire width={24} height={24} />
+              <Text
+                fontSize={14}
+                fontWeight={600}
+                color="default"
+                className="leading-[20px]"
+              >
+                {item}
+              </Text>
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="h-10pxr" />
-      <div className="bg-navy flex h-60pxr w-full rounded-30pxr items-center px-16pxr">
-        <div className="flex w-full gap-6pxr items-center">
-          <IconFire width={24} height={24} />
-          <Text
-            fontSize={14}
-            fontWeight={600}
-            color="default"
-            className="leading-[16px]"
-          >
-            Body is swollen with high-salt side dishes.
-          </Text>
-        </div>
-      </div>
-      <div className="h-25pxr" />
-      <div className="px-16pxr bg-default border py-25pxr rounded-t-30pxr">
-        {comments.map((comment, index) => (
+
+      <div className="relative px-16pxr bg-default border pt-25pxr  pb-50pxr rounded-30pxr ">
+        {displayComments.map((comment, index) => (
           <div key={comment.id}>
             <Comment
               content={comment.content}
@@ -69,14 +60,13 @@ export default function ShareTips({
             {index < comments.length - 1 && <hr className="my-20pxr" />}
           </div>
         ))}
-      </div>
-      <div
-        onClick={() => {
-          navigate(`/comment/${menuId}`);
-        }}
-      >
-        <div className="flex justify-center items-center bg-white h-97pxr w-full px-16pxr">
-          <div className="w-full bg-navy7 rounded-31pxr p-22pxr outline-none">
+        <div
+          className="absolute bottom-0 left-0 flex justify-center items-center w-full "
+          onClick={() => {
+            navigate(`/comment/${menuId}`);
+          }}
+        >
+          <div className="w-full bg-navy7 rounded-31pxr p-22pxr outline-none text-gray-400">
             Write Comments...
           </div>
           <IconSubmit className="absolute right-30pxr" />
