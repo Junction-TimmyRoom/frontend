@@ -10,3 +10,4 @@ export { ReactComponent as IconArrowTop } from './icon_arrow_top.svg';
 export { ReactComponent as IconArrowRightGray } from './icon_arrow_right_gray.svg';
 export { ReactComponent as IconFire } from './icon_fire.svg';
 export { ReactComponent as IconSubmit } from './icon_submit.svg';
+export { ReactComponent as IconArrowLeftWhite } from './icon_arrow_left_white.svg';
