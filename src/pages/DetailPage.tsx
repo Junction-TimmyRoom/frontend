@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ImageDetail from '@/assets/images/image_detail.png';
 import { Text } from '@/components/common/Text';
-import Topbar from '@/components/common/Topbar';
 import Ingredients from '@/components/detail/Ingredients';
 import NutritionFacts from '@/components/detail/NutritionFacts';
 import ShareTips from '@/components/detail/ShareTips';
 import getNutritionFact from '@/api/detail/getNutritionFact';
 import { GetReview } from '@/api/user/review';
-import Comment from '@/components/common/Comment';
-import { IconSubmit } from '@/assets/icons';
+import { IconArrowLeftWhite } from '@/assets/icons';
 import { useNavigate } from 'react-router-dom';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import getIngredients, { MenuDetail } from '@/api/detail/getIngredient';
@@ -94,6 +92,16 @@ const DetailPage: React.FC = () => {
   const [comments, setComments] = useState<Review[]>([]);
   const [recommendComments, setRecommendCommnets] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<MenuDetail[]>([]);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const updateScroll = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', updateScroll);
+    return () => {
+      window.removeEventListener('scroll', updateScroll);
+    };
+  }, []);
   useEffect(() => {
     const path = window.location.pathname;
     const segments = path.split('/');
@@ -181,10 +189,16 @@ const DetailPage: React.FC = () => {
     nutrientText,
   } = state;
 
+  const navigate = useNavigate();
   return (
     <>
       {!isLoading && <LoadingIndicator />}
-      <Topbar />
+      <div
+        className={`${scrollPosition < 100 ? 'bg-transparent' : 'bg-navy'} fixed top-0 left-0 flex items-center duration-500 w-screen h-48pxr p-16pxr z-50 transition-all ease-in-out`}
+      >
+        <IconArrowLeftWhite onClick={() => navigate(-1)} />
+        <p className="absolute left-1/2 transform -translate-x-1/2"></p>
+      </div>
       <div
         className={`w-full h-screen bg-navy8 ${isLoading ? '' : 'overflow-hidden'}`}
       >

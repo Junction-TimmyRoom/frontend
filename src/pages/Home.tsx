@@ -90,7 +90,7 @@ export default function Home() {
           messages: [
             {
               role: 'user',
-              content: `여기서 영어 메뉴를 모두 가져와서 정확히 다음 형식으로 리스트를 반환해줘: ["메뉴1", "메뉴2", "메뉴3", ...]\n\n텍스트:\n${text}`,
+              content: `여기서 영어 메뉴를 모두 가져와서 정확히 다음 형식으로 리스트를 반환해줘 오류가 나더라도 일단 인식한 것에 대한 리스트를 무조건 반환해: ["메뉴1", "메뉴2", "메뉴3", ...]\n\n텍스트:\n${text}`,
             },
           ],
           max_tokens: 1000,
@@ -134,8 +134,17 @@ export default function Home() {
 
   const parseMenuList = (response: string) => {
     try {
-      // JSON.parse를 사용해 GPT의 응답을 배열로 변환
-      return JSON.parse(response);
+      // 텍스트에서 메뉴 리스트가 포함된 배열 부분 추출
+      const match = response.match(/\[(.*?)\]/);
+      if (!match || !match[0]) {
+        throw new Error('No menu list found in response.');
+      }
+
+      // 배열 문자열을 JSON 배열로 변환
+      const menuListString = match[0];
+      const menuList = JSON.parse(menuListString);
+
+      return menuList;
     } catch (error) {
       console.error('Error parsing GPT response:', error);
       notify(); // 파싱 오류 발생 시 알림 표시
