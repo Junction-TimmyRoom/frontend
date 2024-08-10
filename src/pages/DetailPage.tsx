@@ -6,6 +6,11 @@ import Ingredients from '@/components/detail/Ingredients';
 import NutritionFacts from '@/components/detail/NutritionFacts';
 import ShareTips from '@/components/detail/ShareTips';
 import getNutritionFact from '@/api/detail/getNutritionFact';
+import { GetReview } from '@/api/user/review';
+import Comment from '@/components/common/Comment';
+import { IconSubmit } from '@/assets/icons';
+import { useNavigate } from 'react-router-dom';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 // Nutrition Data 타입 정의
 interface NutritionData {
@@ -60,6 +65,15 @@ interface NutritionPageState {
   warnings: string[];
   nutrientText: string[];
 }
+interface Review {
+  id: number;
+  content: string;
+  createdAt: string;
+  user: {
+    nickname: string;
+    pregnancyWeeks: number;
+  };
+}
 
 // DetailPage 컴포넌트
 const DetailPage: React.FC = () => {
@@ -74,7 +88,9 @@ const DetailPage: React.FC = () => {
     warnings: [],
     nutrientText: [],
   });
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [comments, setComments] = useState<Review[]>([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const path = window.location.pathname;
     const segments = path.split('/');
@@ -85,8 +101,13 @@ const DetailPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (state.itemId === null) return;
-
+      setIsLoading(false);
+      if (state.itemId === null) {
+        setIsLoading(true);
+        return;
+      }
+      const commentResponse = await GetReview(state.itemId);
+      setComments(commentResponse.reviews);
       const data = await getNutritionFact(state.itemId);
 
       const updatedWarnings: string[] = [];
@@ -133,8 +154,8 @@ const DetailPage: React.FC = () => {
         warnings: updatedWarnings,
         nutrientText: concatenatedString,
       }));
+      setIsLoading(true);
     };
-
     fetchData();
   }, [state.itemId]);
 
@@ -196,6 +217,45 @@ const DetailPage: React.FC = () => {
             <ShareTips />
           </div>
         </div>
+        <div className="px-16pxr">
+          <div className="px-16pxr bg-default border py-25pxr rounded-t-30pxr">
+            {comments.map((comment, index) => (
+              <div key={comment.id}>
+                <Comment
+                  content={comment.content}
+                  user={comment.user}
+                  createdAt={comment.createdAt}
+                />
+                {index < comments.length - 1 && <hr className="my-20pxr" />}
+              </div>
+            ))}
+          </div>
+          <div
+            onClick={() => {
+              navigate(`/comment/${state.menu?.id}`);
+            }}
+          >
+            <div className="flex justify-center items-center bg-white h-97pxr w-full px-16pxr">
+              <div className="w-full bg-navy7 rounded-31pxr p-22pxr outline-none">
+                Write Comments...
+              </div>
+              <IconSubmit className="absolute right-30pxr" />
+            </div>
+          </div>
+        </div>
+        {!isLoading && (
+          <div className="w-full h-aut flex flex-col">
+            <LoadingIndicator />
+            <Text
+              fontSize={18}
+              fontWeight={600}
+              color="default"
+              className="z-50"
+            >
+              데이터를 불러오는 중입니다.
+            </Text>
+          </div>
+        )}
       </div>
     </>
   );
