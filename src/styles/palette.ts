@@ -2,7 +2,8 @@ const colors = {
   black: '#000000',
   navy: '#0E1B39',
   navy5: 'rgba(14, 27, 57, 0.05)',
-
+  navy6: '#FAFAFA',
+  navy7: '#E5E8EF',
   navy13: '#27324D',
   default: '#FFFFFF',
   gray01: '#D9D9D9',

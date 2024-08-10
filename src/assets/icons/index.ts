@@ -8,3 +8,4 @@ export { ReactComponent as IconWarn } from './icon_warn.svg';
 export { ReactComponent as IconArrowBottom } from './icon_arrow_bottom.svg';
 export { ReactComponent as IconArrowTop } from './icon_arrow_top.svg';
 export { ReactComponent as IconArrowRightGray } from './icon_arrow_right_gray.svg';
+export { ReactComponent as IconSubmit } from './icon_submit.svg';
