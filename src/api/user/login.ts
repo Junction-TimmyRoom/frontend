@@ -1,32 +1,20 @@
 import apiClient from '..';
 
-/**
- * 로그인 요청 파라미터
- *
- * @param {string} email 사용자 이메일
- * @param {string} password 사용자 비밀번호
- */
 interface LoginRequest {
   nickname: string;
   pregnancyWeeks: number;
 }
 
-/**
- * 로그인 응답 파라미터
- *
- * @param {string} accessToken 엑세스 토큰
- */
 interface LoginResponse {
   accessToken: string;
 }
 
-/**
- * 로그인
- *
- * @param {LoginRequest} requestParameters 로그인 요청 파라미터
- * @returns {Promise<LoginResponse>} 로그인 응답
- */
-const login = async (
+interface User {
+  nickname: string;
+  pregnancyWeeks: number;
+}
+
+export const login = async (
   requestParameters: LoginRequest
 ): Promise<LoginResponse> => {
   try {
@@ -41,4 +29,12 @@ const login = async (
   }
 };
 
-export default login;
+export const GetUserInfo = async (): Promise<User> => {
+  try {
+    const response = await apiClient.get<User>(`/user`);
+    return Promise.resolve(response.data);
+  } catch (error) {
+    console.error('사용자 정보 조회 실패', error);
+    return Promise.reject(error);
+  }
+};

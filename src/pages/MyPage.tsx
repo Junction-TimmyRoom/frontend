@@ -1,61 +1,40 @@
 import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+
 import Comment from '@/components/common/Comment';
 
 import { IconWhiteBack } from '@/assets/icons';
+import profile from '@/assets/icons/image_dummy-profile.png';
+
+import { GetUserReview } from '@/api/user/review';
+import { GetUserInfo } from '@/api/user/login';
+
+interface Review {
+  id: number;
+  content: string;
+  createdAt: string;
+  user: {
+    nickname: string;
+    pregnancyWeeks: number;
+  };
+}
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const [comments, setComments] = useState<Review[]>([]);
+  const [weeks, setWeeks] = useState<number>(0);
+  let localNicname: string | null = localStorage.getItem('nickname');
 
-  const comments = [
-    {
-      id: 1,
-      content: '이 글 정말 유익하네요!',
-      nickname: '유저1',
-      createdAt: '08.01',
-    },
-    {
-      id: 2,
-      content: '좋은 정보 감사합니다.',
-      nickname: '유저2',
-      createdAt: '08.02',
-    },
-    {
-      id: 3,
-      content: '저도 같은 생각입니다.',
-      nickname: '유저3',
-      createdAt: '08.03',
-    },
-    {
-      id: 4,
-      content: '잘 읽었습니다.',
-      nickname: '유저4',
-      createdAt: '08.04',
-    },
-    {
-      id: 5,
-      content: '더 많은 글 기대할게요.',
-      nickname: '유저5',
-      createdAt: '08.05',
-    },
-    {
-      id: 6,
-      content: '유익한 정보 감사합니다.',
-      nickname: '유저6',
-      createdAt: '08.06',
-    },
-    {
-      id: 7,
-      content: '좋은 글 감사합니다.',
-      nickname: '유저7',
-      createdAt: '08.07',
-    },
-    {
-      id: 8,
-      content: '정말 도움이 많이 되었습니다.',
-      nickname: '유저8',
-      createdAt: '08.08',
-    },
-  ];
+  const handleComment = async (nickname: string | null) => {
+    const response = await GetUserReview(nickname);
+    const userInfo = await GetUserInfo();
+    setComments(response);
+    setWeeks(userInfo.pregnancyWeeks);
+  };
+
+  useEffect(() => {
+    handleComment(localNicname);
+  }, []);
 
   return (
     <>
@@ -70,25 +49,28 @@ const MyPage = () => {
             <p className="text-white font-semibold text-16pxr">My Profile</p>
           </p>
         </div>
-        <img className="w-100pxr h-100pxr bg-white rounded-full mt-30pxr" />
+        <img
+          className="w-100pxr h-100pxr bg-white rounded-full mt-30pxr border border-white border-4pxr"
+          src={profile}
+        />
         <p className="mt-14pxr mb-8pxr text-white text-20pxr font-semibold ">
-          둥둥
+          {localNicname}
         </p>
         <div className="px-16pxr py-8pxr bg-navy13 rounded-20pxr text-white text-14pxr font-medium mb-31pxr">
-          임신 16주
+          {weeks} Weeks
         </div>
       </div>
 
       <div className="px-16pxr">
         <p className="flex gap-6pxr text-18pxr font-medium mt-47pxr mb-31pxr">
-          My Comments <p className="font-bold">{'24'}</p>
+          Comments <p className="font-bold">{comments.length}</p>
         </p>
         <div className="pb-8">
           {comments.map((comment, index) => (
             <div key={comment.id}>
               <Comment
                 content={comment.content}
-                nickname={comment.nickname}
+                user={comment.user}
                 createdAt={comment.createdAt}
               />
               {index < comments.length - 1 && <hr className="my-20pxr" />}

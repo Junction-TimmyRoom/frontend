@@ -32,6 +32,7 @@ const CommentPage = () => {
     console.error('ID가 유효한 숫자가 아닙니다.');
     return <div>잘못된 ID입니다.</div>;
   }
+  const [render, setRender] = useState<number>(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<Review[]>([]);
 
@@ -48,7 +49,7 @@ const CommentPage = () => {
 
   useEffect(() => {
     handleComment(menuId);
-  }, []);
+  }, [render]);
 
   const handleSubmit = async () => {
     if (comment.trim()) {
@@ -62,6 +63,7 @@ const CommentPage = () => {
         menuId: menuId,
       });
       setComment('');
+      setRender(render + 1);
     }
   };
 
@@ -85,7 +87,7 @@ const CommentPage = () => {
           </p>
         </p>
       </div>
-      <div className="w-full pt-88pxr pb-8 px-16pxr bg-navy6">
+      <div className="w-full pt-88pxr pb-108pxr px-16pxr bg-navy6">
         {comments.map((comment, index) => (
           <div key={comment.id}>
             <Comment
