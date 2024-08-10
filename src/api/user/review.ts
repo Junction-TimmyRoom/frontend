@@ -51,3 +51,15 @@ export const GetReview = async (menuId: number): Promise<Data> => {
     return Promise.reject(error);
   }
 };
+
+export const GetUserReview = async (
+  nickname: string | null
+): Promise<Review[]> => {
+  try {
+    const response = await apiClient.get<Review[]>(`/review/${nickname}`);
+    return Promise.resolve(response.data);
+  } catch (error) {
+    console.error('사용자 리뷰 조회 실패', error);
+    return Promise.reject(error);
+  }
+};
