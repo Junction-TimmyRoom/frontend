@@ -1,15 +1,41 @@
 import { useState } from 'react';
 import { Text } from '../common/Text';
-import ImageIngredient from '@/assets/images/image_ingredient.png';
+import { MenuDetail } from '@/api/detail/getIngredient';
 
-export default function () {
-  const [selectedMenu, setSelectedMenu] = useState<
-    'Good' | 'Careful' | 'Etc' | null
-  >(null);
+interface ShowIngredientProps {
+  ingredients: MenuDetail[];
+}
+
+export default function ShowIngredient({ ingredients }: ShowIngredientProps) {
+  const [selectedMenu, setSelectedMenu] = useState<'Good' | 'Careful' | 'Etc'>(
+    'Good'
+  );
 
   const handleMenuSelect = (menu: 'Good' | 'Careful' | 'Etc') => {
     setSelectedMenu(menu);
   };
+
+  // 필터링된 식자재를 선택된 메뉴에 따라 표시
+  const filteredIngredients = ingredients.flatMap(
+    (detail) =>
+      detail.ingredientCharacteristics
+        .filter((char) => char.type === selectedMenu.toUpperCase())
+        .map(() => detail.menu.imgUrl) // 각 식자재의 메뉴에서 imgUrl을 가져옴
+  );
+
+  // 각 메뉴 버튼 옆에 표시할 개수 계산
+  const goodCount = ingredients.flatMap((detail) =>
+    detail.ingredientCharacteristics.filter((char) => char.type === 'GOOD')
+  ).length;
+
+  const carefulCount = ingredients.flatMap((detail) =>
+    detail.ingredientCharacteristics.filter((char) => char.type === 'CAREFUL')
+  ).length;
+
+  const etcCount = ingredients.flatMap((detail) =>
+    detail.ingredientCharacteristics.filter((char) => char.type === 'ETC')
+  ).length;
+
   return (
     <div>
       <Text fontSize={18} fontWeight={700}>
@@ -25,7 +51,7 @@ export default function () {
               : 'bg-white text-blue'
           }`}
         >
-          Good
+          Good ({goodCount})
         </button>
         <button
           onClick={() => handleMenuSelect('Careful')}
@@ -35,7 +61,7 @@ export default function () {
               : 'bg-white text-orange'
           }`}
         >
-          Careful
+          Careful ({carefulCount})
         </button>
         <button
           onClick={() => handleMenuSelect('Etc')}
@@ -45,17 +71,22 @@ export default function () {
               : 'bg-white text-black'
           }`}
         >
-          Etc
+          Etc ({etcCount})
         </button>
       </div>
       <div className="mt-20pxr overflow-x-scroll flex gap-12pxr">
-        <img src={ImageIngredient} alt="" />
-        <img src={ImageIngredient} alt="" />
-        <img src={ImageIngredient} alt="" />
-        <img src={ImageIngredient} alt="" />
-        <img src={ImageIngredient} alt="" />
-        <img src={ImageIngredient} alt="" />
-        <img src={ImageIngredient} alt="" />
+        {filteredIngredients.length > 0 ? (
+          filteredIngredients.map((imgUrl, index) => (
+            <img
+              key={index}
+              src={imgUrl}
+              alt={`Ingredient ${index}`}
+              className="w-24 h-24 object-cover rounded"
+            />
+          ))
+        ) : (
+          <p>해당하는 식자재가 없습니다</p>
+        )}
       </div>
     </div>
   );

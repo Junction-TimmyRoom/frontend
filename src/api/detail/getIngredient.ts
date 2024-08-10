@@ -14,7 +14,7 @@ interface IngredientCharacteristic {
   content: string;
 }
 
-interface MenuDetail {
+export interface MenuDetail {
   id: number;
   name: string;
   menu: {
@@ -25,6 +25,7 @@ interface MenuDetail {
     caloriesPer100gServing: number;
     imgUrl: string;
   };
+  imgUrl: string;
   ingredientCharacteristics: IngredientCharacteristic[];
 }
 
@@ -36,7 +37,7 @@ interface MenuDetail {
  */
 const getIngredients = async (menuId: number): Promise<MenuDetail[]> => {
   const response = await apiClient.get<MenuDetail[]>(
-    `/menu/ingredient/${menuId}`
+    `/menu/ingredients/${menuId}`
   );
 
   return response.data;

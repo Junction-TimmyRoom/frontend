@@ -11,6 +11,8 @@ import Comment from '@/components/common/Comment';
 import { IconSubmit } from '@/assets/icons';
 import { useNavigate } from 'react-router-dom';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
+import getIngredients, { MenuDetail } from '@/api/detail/getIngredient';
+import ShowBadge from '@/components/detail/ShowBadge';
 
 // Nutrition Data 타입 정의
 interface NutritionData {
@@ -75,6 +77,12 @@ interface Review {
   };
 }
 
+interface IngredientCharacteristic {
+  id: number;
+  type: string; // 예: "ETC"
+  content: string;
+}
+
 // DetailPage 컴포넌트
 const DetailPage: React.FC = () => {
   const [state, setState] = useState<NutritionPageState>({
@@ -90,6 +98,7 @@ const DetailPage: React.FC = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [comments, setComments] = useState<Review[]>([]);
+  const [ingredients, setIngredients] = useState<MenuDetail[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     const path = window.location.pathname;
@@ -106,8 +115,18 @@ const DetailPage: React.FC = () => {
         setIsLoading(true);
         return;
       }
+
+      /**
+       * 댓글 가져오기
+       */
       const commentResponse = await GetReview(state.itemId);
       setComments(commentResponse.reviews);
+
+      /**
+       * 성분 가져오기
+       */
+      const ingredientResponse = await getIngredients(state.itemId);
+      setIngredients(ingredientResponse);
       const data = await getNutritionFact(state.itemId);
 
       const updatedWarnings: string[] = [];
@@ -180,15 +199,7 @@ const DetailPage: React.FC = () => {
                 <Text fontSize={24} fontWeight={700} className="leading-normal">
                   {state.menu?.name}
                 </Text>
-                <div className="flex rounded-30pxr px-10pxr h-fit py-4pxr bg-blue">
-                  <Text
-                    fontSize={12}
-                    color="default"
-                    className="leading-[16px]"
-                  >
-                    Good
-                  </Text>
-                </div>
+                <ShowBadge ingredients={ingredients} />
               </div>
               <Text fontSize={14} fontWeight={500}>
                 {state.categoryName}
@@ -209,7 +220,7 @@ const DetailPage: React.FC = () => {
             />
           )}
           <div className="mt-72pxr">
-            <Ingredients />
+            <Ingredients ingredients={ingredients} />
           </div>
           <div className="mt-75pxr">
             <ShareTips />
