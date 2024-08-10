@@ -1,33 +1,18 @@
-import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import Topbar from '@/components/common/Topbar';
 import MenuBox from '@/components/MenuBox';
 
-interface MenuItem {
-  id: number;
-  name: string;
-}
-
 const MenuPage = () => {
   const location = useLocation();
-  const photoData = location.state || {};
-
-  //mock data
-  const menuItems: MenuItem[] = [
-    { id: 1, name: 'Menu Item 1' },
-    { id: 2, name: 'Menu Item 2' },
-    { id: 3, name: 'Menu Item 3' },
-    { id: 4, name: 'Menu Item 4' },
-  ];
+  const { photoData, menuList } = location.state || {};
 
   return (
-    <div>
-      <Topbar title={'메뉴 인식'} />
-      <div className="img-container pt-80pxr pb-44pxr">
+    <div className="px-16pxr">
+      <Topbar title={'메뉴 인식 결과'} />
+      <div className="img-container pt-80pxr pb-44pxr flex items-center justify-center">
         {photoData ? (
           <img
-            className="rounded-20pxr bg-gray01"
+            className="rounded-20pxr bg-gray01 w-294pxr h-294pxr"
             src={photoData}
             alt="Captured"
           />
@@ -36,12 +21,12 @@ const MenuPage = () => {
         )}
       </div>
       <div className="menu-container">
-        <p className="text-18pxr mb-20pxr font-normal font-semibold leading-16pxr">
-          {'0'}개의 메뉴가 있네요
+        <p className="text-18pxr mb-20pxr leading-16pxr">
+          {menuList?.length || 0}개의 메뉴가 있네요
         </p>
         <div className="menu-container flex flex-col gap-8pxr">
-          {menuItems.map((item) => (
-            <MenuBox key={item.id} item={item} />
+          {menuList?.map((item: string, index: number) => (
+            <MenuBox key={index} item={{ id: index, name: item }} />
           ))}
         </div>
       </div>

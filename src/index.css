@@ -24,8 +24,6 @@
       'Segoe UI Emoji',
       'Segoe UI Symbol',
       'Noto Color Emoji';
-
-    padding: 0 16px;
   }
 }
 @tailwind components;
