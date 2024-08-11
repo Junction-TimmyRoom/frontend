@@ -71,8 +71,6 @@ export default function Home() {
         ? annotations[0].description
         : 'No text detected';
 
-      console.log('Detected text:', detectedText);
-
       // GPT API를 통해 한글 메뉴만 추출
       await getGptResponse(detectedText, base64Image);
     } catch (error) {
@@ -104,11 +102,9 @@ export default function Home() {
       );
 
       const gptResponse = response.data.choices[0].message.content.trim();
-      console.log('GPT Response:', gptResponse);
 
       // GPT 응답을 파싱하여 JSON으로 변환 후 배열로 관리
       const menuList = parseMenuList(gptResponse);
-      console.log('Parsed Menu List:', menuList);
 
       // getMenus 호출하여 응답을 받아서 navigate 시 상태로 전달
       await getMenusResponse(menuList, image);
@@ -122,7 +118,6 @@ export default function Home() {
   const getMenusResponse = async (menuList: string[], image: string) => {
     try {
       const response = await getMenus({ menus: menuList });
-      console.log('Get Menus Response:', response);
 
       // 메뉴 정보와 함께 페이지 이동
       navigate('/menu', { state: { photoData: image, menuList: response } });
