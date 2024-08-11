@@ -192,14 +192,17 @@ const DetailPage: React.FC = () => {
   const navigate = useNavigate();
   return (
     <>
+      {!isLoading && <LoadingIndicator />}
       <div
         className={`${scrollPosition < 100 ? 'bg-transparent' : 'bg-navy'} fixed top-0 left-0 flex items-center duration-500 w-screen h-48pxr p-16pxr z-50 transition-all ease-in-out`}
       >
         <IconArrowLeftWhite onClick={() => navigate(-1)} />
         <p className="absolute left-1/2 transform -translate-x-1/2"></p>
       </div>
-      <div className="w-full bg-[#F6F6F6]">
-        <div className="flex flex-col web:flex web:flex-row">
+      <div
+        className={`w-full h-screen bg-navy8 ${isLoading ? '' : 'overflow-hidden'}`}
+      >
+        <div className="flex flex-col web:flex web:flex-row bg-navy8">
           <img src={ImageDetail} className="w-full" alt="Detail" />
           <div className="radius z-20 -mt-32pxr w-full py-33pxr px-16pxr rounded-36pxr bg-white">
             <div className="flex flex-col">
@@ -215,8 +218,10 @@ const DetailPage: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="px-16pxr">
-          <div className="mt-34pxr leading-[19.6px]">{state.menu?.content}</div>
+        <div className="px-16pxr bg-navy8">
+          <div className="mt-34pxr text-14pxr leading-[19.6px]">
+            {state.menu?.content}
+          </div>
           {nutritionData && recommendedNutritionData && (
             <NutritionFacts
               nutritionData={nutritionData}
@@ -238,19 +243,6 @@ const DetailPage: React.FC = () => {
             />
           </div>
         </div>
-        {!isLoading && (
-          <div className="w-full h-aut flex flex-col">
-            <LoadingIndicator />
-            <Text
-              fontSize={18}
-              fontWeight={600}
-              color="default"
-              className="z-50"
-            >
-              데이터를 불러오는 중입니다.
-            </Text>
-          </div>
-        )}
       </div>
     </>
   );

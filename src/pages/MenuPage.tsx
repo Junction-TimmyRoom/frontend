@@ -30,7 +30,7 @@ const MenuPage = () => {
       <div className="img-container pt-80pxr pb-44pxr flex items-center justify-center">
         {photoData ? (
           <img
-            className="rounded-20pxr bg-gray01 w-294pxr h-294pxr"
+            className="rounded-20pxr bg-gray01 w-294pxr"
             src={photoData}
             alt="Captured"
           />
@@ -38,7 +38,7 @@ const MenuPage = () => {
           <p>No photo data available</p>
         )}
       </div>
-      <div className="menu-container">
+      <div className="menu-container mb-40pxr">
         <div className="flex gap-8pxr items-center">
           <Text fontSize={21} fontWeight={700} className="leading-16pxr">
             Menu
@@ -50,7 +50,7 @@ const MenuPage = () => {
             </Text>
           </div>
         </div>
-        <div className="menu-container flex flex-col gap-8pxr mt-21pxr">
+        <div className="menu-container flex flex-col gap-8pxr my-21pxr">
           {menuList.map((item: MenuItem, index: number) => (
             <MenuBox
               key={index}

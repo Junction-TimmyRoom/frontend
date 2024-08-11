@@ -4,6 +4,7 @@ const colors = {
   navy5: 'rgba(14, 27, 57, 0.05)',
   navy6: '#FAFAFA',
   navy7: '#E5E8EF',
+  navy8: '#F6F6F6',
   navy13: '#27324D',
   default: '#FFFFFF',
   grayRGBA: 'rgba(14, 27, 57, 0.10)',
