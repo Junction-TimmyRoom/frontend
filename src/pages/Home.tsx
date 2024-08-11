@@ -105,7 +105,7 @@ export default function Home() {
 
       // GPT 응답을 파싱하여 JSON으로 변환 후 배열로 관리
       const menuList = parseMenuList(gptResponse);
-
+      console.log(menuList);
       // getMenus 호출하여 응답을 받아서 navigate 시 상태로 전달
       await getMenusResponse(menuList, image);
     } catch (error) {
