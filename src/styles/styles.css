@@ -14,3 +14,13 @@
 .animate-floating {
   animation: floating 2s ease-in-out infinite;
 }
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}

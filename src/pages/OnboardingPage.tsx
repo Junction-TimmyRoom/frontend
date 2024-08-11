@@ -10,6 +10,7 @@ import Phase2 from '@/components/onboarding/Phase2';
 
 const OnboardingPage = () => {
   const [fadeOut, setFadeOut] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [phase, setPhase] = useState<number>(1);
 
   useEffect(() => {
@@ -20,10 +21,28 @@ const OnboardingPage = () => {
     return () => clearTimeout(fadeOutTimer);
   }, []);
 
+  useEffect(() => {
+    if (fadeOut) {
+      const hiddenTimer = setTimeout(() => {
+        setHidden(true);
+      }, 500);
+
+      return () => clearTimeout(hiddenTimer);
+    }
+  }, [fadeOut]);
+
   return (
     <>
-      {!fadeOut && (
-        <div className="w-full h-full left-0 absolute z-10 overflow-hidden  bg-navy flex justify-center items-end pb-12">
+      <div className="w-full h-screen pt-8 px-16pxr">
+        <ProgressBar phase={phase} />
+        {phase === 1 ? <Phase1 setPhase={setPhase} /> : <Phase2 />}
+      </div>
+      {
+        <div
+          className={`w-full h-full left-0 top-0 absolute z-10 overflow-hidden bg-navy flex justify-center items-end pb-12 ${
+            fadeOut ? 'fade-out' : 'fade-in'
+          } ${hidden ? 'hidden' : ''}`}
+        >
           <img
             src={BackgroundImage}
             className="w-full max-w-430pxr absolute z-[-3] bottom-0"
@@ -33,11 +52,7 @@ const OnboardingPage = () => {
             <img src={BrandEx} className="w-198pxr " />
           </div>
         </div>
-      )}
-      <div className="w-full h-screen pt-8 px-16pxr">
-        <ProgressBar phase={phase} />
-        {phase === 1 ? <Phase1 setPhase={setPhase} /> : <Phase2 />}
-      </div>
+      }
     </>
   );
 };

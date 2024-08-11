@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import { IconSearch } from '@/assets/icons';
+import axios from 'axios';
 
 import { GetSearchMenu } from '@/api/menu/getSearchMenu';
 
@@ -15,7 +16,7 @@ export default function SearchInput() {
       const response = await GetSearchMenu(menuName);
       navigate(`/detail/${response.menuId}`);
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
         setErrorMessage('영양 정보가 등록되지 않았어요.');
       } else {
         setErrorMessage('검색 중 오류가 발생했습니다.');
