@@ -82,23 +82,45 @@ export default function ShowIngredient({ ingredients }: ShowIngredientProps) {
           Etc ({etcCount})
         </button>
       </div>
-      <div className="mt-20pxr flex flex-wrap gap-12pxr">
+      <div className="mt-20pxr flex gap-12pxr overflow-x-scroll">
         {filteredIngredients.length > 0 ? (
           filteredIngredients.map((ingredient, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between items-center rounded-20pxr px-14pxr py-18pxr w-150pxr h-192pxr bg-white shadow-md"
+              className="flex flex-col justify-between items-center rounded-20pxr px-14pxr py-18pxr min-w-150pxr max-w-150pxr bg-white shadow-md"
             >
               <div>
                 <div className="flex justify-between">
-                  <Text fontSize={16} fontWeight={600}>
+                  <Text
+                    fontSize={16}
+                    fontWeight={600}
+                    className="whitespace-nowrap"
+                  >
                     {ingredient.name}
                   </Text>
-                  <Text fontSize={14} color="black">
-                    {ingredient.type}
-                  </Text>
+                  {ingredient.type === 'GOOD' ? (
+                    <div className="bg-blueText px-6pxr py-2pxr rounded-30pxr">
+                      <Text fontSize={12} color="blue" fontWeight={600}>
+                        {ingredient.type}
+                      </Text>
+                    </div>
+                  ) : ingredient.type === 'CAREFUL' ? (
+                    <div className="bg-orangeText px-6pxr py-2pxr rounded-30pxr">
+                      <Text fontSize={12} color="orange" fontWeight={600}>
+                        {ingredient.type}
+                      </Text>
+                    </div>
+                  ) : (
+                    <div className="bg-gray10 px-6pxr py-2pxr flex items-center justify-center rounded-30pxr">
+                      <Text fontSize={12} color="black" fontWeight={600}>
+                        {ingredient.type}
+                      </Text>
+                    </div>
+                  )}
                 </div>
-                <p className="text-sm text-gray-500">{ingredient.content}</p>
+                <p className="text-sm text-gray-500 text-ellipsis line-clamp-3">
+                  {ingredient.content}
+                </p>
               </div>
               <img
                 src={ingredient.imgUrl}
