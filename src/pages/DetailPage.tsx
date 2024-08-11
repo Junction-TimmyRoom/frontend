@@ -51,6 +51,7 @@ interface Menu {
   id: number;
   name: string;
   content: string;
+  imgUrl?: string;
   recommendedServingSize: number;
   caloriesPer100gServing: number;
 }
@@ -203,7 +204,7 @@ const DetailPage: React.FC = () => {
         className={`w-full h-screen bg-navy8 ${isLoading ? '' : 'overflow-hidden'}`}
       >
         <div className="flex flex-col web:flex web:flex-row bg-navy8">
-          <img src={ImageDetail} className="w-full" alt="Detail" />
+          <img src={state.menu?.imgUrl} className="w-full" alt="Detail" />
           <div className="radius z-20 -mt-32pxr w-full py-33pxr px-16pxr rounded-36pxr bg-white">
             <div className="flex flex-col">
               <div className="flex gap-8pxr items-center">

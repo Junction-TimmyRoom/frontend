@@ -20,7 +20,7 @@ export default function ShowIngredient({ ingredients }: ShowIngredientProps) {
     detail.ingredientCharacteristics
       .filter((char) => char.type === selectedMenu.toUpperCase())
       .map(() => ({
-        imgUrl: detail.menu.imgUrl,
+        imgUrl: detail.imgUrl,
         menuName: detail.menu.name,
         name: detail.name,
         content:
@@ -53,43 +53,49 @@ export default function ShowIngredient({ ingredients }: ShowIngredientProps) {
       <div className="flex gap-4pxr mt-24pxr">
         <button
           onClick={() => handleMenuSelect('Good')}
-          className={`px-16pxr py-10pxr rounded-30pxr ${
+          className={`flex gap-3pxr px-16pxr py-10pxr rounded-30pxr ${
             selectedMenu === 'Good'
               ? 'bg-blue text-white'
-              : 'bg-white text-blue'
+              : 'bg-white text-blue border border-1pxr border-gray-300'
           }`}
         >
-          Good ({goodCount})
+          Good <p className="font-bold">{goodCount}</p>
         </button>
         <button
           onClick={() => handleMenuSelect('Careful')}
-          className={`px-16pxr py-10pxr rounded-30pxr ${
+          className={`flex gap-3pxr px-16pxr py-10pxr rounded-30pxr ${
             selectedMenu === 'Careful'
               ? 'bg-orange text-white'
-              : 'bg-white text-orange'
+              : 'bg-white text-orange border border-1pxr border-gray-300'
           }`}
         >
-          Careful ({carefulCount})
+          Careful <p className="font-bold">{carefulCount}</p>
         </button>
         <button
           onClick={() => handleMenuSelect('Etc')}
-          className={`px-16pxr py-10pxr rounded-30pxr ${
+          className={`flex gap-3pxr px-16pxr py-10pxr rounded-30pxr ${
             selectedMenu === 'Etc'
               ? 'bg-black text-white'
-              : 'bg-white text-black'
+              : 'bg-white text-black border border-1pxr border-gray-300'
           }`}
         >
-          Etc ({etcCount})
+          Etc <p className="font-bold">{etcCount}</p>
         </button>
       </div>
-      <div className="mt-20pxr flex gap-12pxr overflow-x-scroll">
+      <div
+        className="mt-20pxr flex gap-12pxr overflow-x-scroll pb-5pxr [&::-webkit-scrollbar]:hidden"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
         {filteredIngredients.length > 0 ? (
           filteredIngredients.map((ingredient, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between items-center rounded-20pxr px-14pxr py-18pxr min-w-150pxr max-w-150pxr bg-white shadow-md"
+              className="flex flex-col justify-between items-center gap-3pxr rounded-20pxr px-14pxr py-18pxr min-w-150pxr max-w-150pxr bg-white shadow-md"
             >
-              <div>
+              <div className="flex flex-col gap-5pxr">
                 <div className="flex justify-between">
                   <Text
                     fontSize={16}
@@ -99,15 +105,15 @@ export default function ShowIngredient({ ingredients }: ShowIngredientProps) {
                     {ingredient.name}
                   </Text>
                   {ingredient.type === 'GOOD' ? (
-                    <div className="bg-blueText px-6pxr py-2pxr rounded-30pxr">
+                    <div className="flex items-center justify-center rounded-30pxr bg-blueText px-6pxr py-2pxr rounded-30pxr">
                       <Text fontSize={12} color="blue" fontWeight={600}>
-                        {ingredient.type}
+                        {'Good'}
                       </Text>
                     </div>
                   ) : ingredient.type === 'CAREFUL' ? (
-                    <div className="bg-orangeText px-6pxr py-2pxr rounded-30pxr">
+                    <div className="flex items-center justify-center rounded-30pxr bg-orangeText px-6pxr py-2pxr rounded-30pxr">
                       <Text fontSize={12} color="orange" fontWeight={600}>
-                        {ingredient.type}
+                        {'Careful'}
                       </Text>
                     </div>
                   ) : (
@@ -118,14 +124,14 @@ export default function ShowIngredient({ ingredients }: ShowIngredientProps) {
                     </div>
                   )}
                 </div>
-                <p className="text-sm text-gray-500 text-ellipsis line-clamp-3">
+                <p className="text-xs text-gray-500 text-ellipsis line-clamp-3">
                   {ingredient.content}
                 </p>
               </div>
               <img
                 src={ingredient.imgUrl}
                 alt={ingredient.menuName}
-                className="w-92pxr h-92pxr object-cover"
+                className="w-92pxr h-92pxr object-contain rounded-10pxr"
               />
             </div>
           ))

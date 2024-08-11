@@ -34,7 +34,7 @@ const MenuBox = ({ item }: MenuItemProps) => {
         </Text>
       </div>
       <div className="flex gap-4pxr items-center">
-        <div className="flex rounded-30pxr px-10pxr py-4pxr bg-blue">
+        <div className="flex gap-3pxr rounded-30pxr px-10pxr py-4pxr bg-blue">
           <Text fontSize={12} color="default">
             Good
           </Text>{' '}
@@ -42,7 +42,7 @@ const MenuBox = ({ item }: MenuItemProps) => {
             {item.countOfGood}
           </Text>
         </div>
-        <div className="flex rounded-30pxr px-10pxr py-4pxr bg-orange">
+        <div className="flex gap-3pxr rounded-30pxr px-10pxr py-4pxr bg-orange">
           <Text fontSize={12} color="default">
             Careful
           </Text>{' '}
