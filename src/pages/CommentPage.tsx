@@ -101,7 +101,7 @@ const CommentPage = () => {
       <div className="fixed bottom-0 left-0 flex justify-center items-center bg-white h-97pxr w-full px-16pxr">
         <input
           placeholder="Write Comments..."
-          className="w-full bg-navy7 rounded-31pxr p-22pxr outline-none"
+          className="w-full bg-navy7 rounded-31pxr py-22pxr pl-22pxr pr-48pxr outline-none"
           value={comment}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
