@@ -15,6 +15,7 @@ import ImageUserLogo from '@/assets/images/image_userLogo.png';
 export default function Home() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+  const nickname = localStorage.getItem('nickname');
 
   const notify = () =>
     toast.error('🦄 파싱 오류가 발생했습니다. 다시 시도해주세요!', {
@@ -174,13 +175,19 @@ export default function Home() {
          */}
         <div className="w-full px-16pxr flex gap-10pxr items-center">
           <SearchInput />
-          <img src={ImageUserLogo} width={50} height={50} alt="" />
+          <img
+            src={ImageUserLogo}
+            width={50}
+            height={50}
+            alt=""
+            onClick={() => navigate('/my')}
+          />
         </div>
         {/**
          * 텍스트 영역
          */}
         <div className="flex flex-col items-center mt-60pxr">
-          <Text fontSize={21}>Hello, Junction!</Text>
+          <Text fontSize={21}>Hello, {nickname}!</Text>
           <Text fontSize={21} fontWeight={600}>
             Eat anything, at anywhere
           </Text>

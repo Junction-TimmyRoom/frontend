@@ -8,10 +8,19 @@ import { GetSearchMenu } from '@/api/menu/getSearchMenu';
 export default function SearchInput() {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearch = async (menuName: string) => {
-    const response = await GetSearchMenu(menuName);
-    navigate(`/detail/${response.menuId}`);
+    try {
+      const response = await GetSearchMenu(menuName);
+      navigate(`/detail/${response.menuId}`);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setErrorMessage('영양 정보가 등록되지 않았어요.');
+      } else {
+        setErrorMessage('검색 중 오류가 발생했습니다.');
+      }
+    }
   };
 
   const handleKeyDown = (event: { key: string }) => {
@@ -33,6 +42,11 @@ export default function SearchInput() {
       <div className="absolute top-1/2 transform -translate-y-1/2 right-20pxr">
         <IconSearch onClick={() => handleSearch(searchValue)} />
       </div>
+      {errorMessage !== '' && (
+        <div className="absolute text-red-500 text-sm mt-48pxr">
+          {errorMessage}
+        </div>
+      )}
     </div>
   );
 }

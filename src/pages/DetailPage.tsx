@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ImageDetail from '@/assets/images/image_detail.png';
 import { Text } from '@/components/common/Text';
 import Ingredients from '@/components/detail/Ingredients';
 import NutritionFacts from '@/components/detail/NutritionFacts';

@@ -22,7 +22,6 @@ export default function ShareTips({
   menuId,
   recommendComment,
 }: commentProps) {
-  console.log(recommendComment);
   const navigate = useNavigate();
   const displayComments = comments.length >= 3 ? comments.slice(-3) : comments;
 
