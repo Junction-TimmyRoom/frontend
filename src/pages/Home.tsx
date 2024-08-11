@@ -187,7 +187,7 @@ export default function Home() {
         </div>
       </div>
       <div className="relative mb-85pxr">
-        <img src={ImageMain} className="w-full h-456pxr" alt="Main" />
+        <img src={ImageMain} className="w-full" alt="Main" />
         <input
           type="file"
           accept="image/*"
@@ -198,12 +198,12 @@ export default function Home() {
         />
         <label
           htmlFor="cameraInput"
-          className="absolute bottom-13pxr left-1/2 transform -translate-x-1/2 hover:brightness-75 cursor-pointer"
+          className="absolute bottom-[9.5%] left-1/2 transform -translate-x-1/2 hover:brightness-75 cursor-pointer"
         >
           <IconCamera />
         </label>
         <div
-          className="absolute -bottom-35pxr left-1/2"
+          className="absolute bottom-0 left-1/2"
           style={{ transform: 'translateX(-50%)' }}
         >
           <div className="flex whitespace-nowrap items-center justify-center px-10pxr py-6pxr rounded-30pxr bg-[#FB543C] text-white animate-floating">
