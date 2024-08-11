@@ -11,9 +11,12 @@ const colors = {
   gray02: '#C4C4C4',
   gray10: 'rgba(0,0,0,0.1)',
   gray50: 'rgba(0,0,0,0.5)',
+  green: '#53CD85',
   yellow: '#F6D75E',
   orange: '#FB543C',
+  orangeText: 'gba(251, 84, 60, 0.20)',
   blue: '#179CFF',
+  blueText: 'rgba(23, 156, 255, 0.20)',
 };
 
 export default colors;
