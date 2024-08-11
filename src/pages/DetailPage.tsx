@@ -219,7 +219,9 @@ const DetailPage: React.FC = () => {
           </div>
         </div>
         <div className="px-16pxr bg-navy8">
-          <div className="mt-34pxr leading-[19.6px]">{state.menu?.content}</div>
+          <div className="mt-34pxr text-14pxr leading-[19.6px]">
+            {state.menu?.content}
+          </div>
           {nutritionData && recommendedNutritionData && (
             <NutritionFacts
               nutritionData={nutritionData}
